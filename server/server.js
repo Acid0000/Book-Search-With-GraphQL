@@ -29,7 +29,8 @@ async function startApolloServer() {
 
   await server.start();
   server.applyMiddleware({ app });
-
+  const cors = require('cors');
+  app.use(cors());
   app.use(routes);
 
   // Connect to the database and start the server
