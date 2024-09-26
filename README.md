@@ -1,127 +1,186 @@
-# Google Books Search Engine - MERN Stack
+# Book-Search-With-GraphQL
 
-This is a full-stack MERN (MongoDB, Express, React, Node.js) application that allows users to search for books using the Google Books API and save them to their account. The backend uses Apollo Server and GraphQL for handling API requests, and the frontend is built with React. Users can sign up, log in, search for books, save them to their account, and view or delete saved books.
+This project is a full-stack MERN (MongoDB, Express, React, Node.js) application using GraphQL for API communication. It allows users to search for books via the Google Books API, create an account, save favorite books, and manage their saved books. The application is deployed on Render.
 
 ## Table of Contents
 
-- [Demo](#demo)
-- [Technologies](#technologies)
 - [Features](#features)
+- [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Deployment to Render](#deployment-to-render)
-- [Environment Variables](#environment-variables)
+- [Deployment on Render](#deployment-on-render)
+- [Available Scripts](#available-scripts)
+- [API Endpoints](#api-endpoints)
 - [License](#license)
-
-## Demo
-
-A live demo of the application can be found at: **[https://book-search-with-graphql.onrender.com/]**
-
-## Technologies
-
-- **Frontend**: React, Apollo Client, React Bootstrap, Vite
-- **Backend**: Node.js, Express, Apollo Server, GraphQL
-- **Database**: MongoDB (via MongoDB Atlas)
 
 ## Features
 
-- **Search for Books**: Allows users to search for books using the Google Books API.
-- **User Authentication**: Users can sign up, log in, and stay logged in via JSON Web Tokens (JWT).
-- **Save Books**: Users can save books to their personal account.
-- **View Saved Books**: Users can view and delete books from their saved list.
+- Search for books using the Google Books API.
+- User authentication (signup and login).
+- Save books to your account for future reference.
+- View and remove saved books.
+- Built using GraphQL and Apollo Server for API communication.
+
+## Technologies Used
+
+- **Front-End**: React, React Router, Bootstrap
+- **Back-End**: Node.js, Express.js
+- **GraphQL**: Apollo Server, GraphQL
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JSON Web Tokens (JWT)
 
 ## Installation
 
-To install the application locally, follow these steps:
+To run this application locally, follow these steps:
 
 ```sh
-# Clone the repository
-git clone https://github.com/yourusername/google-books-search.git
-
-# Navigate into the project directory
-cd google-books-search
-
-# Install dependencies for both backend and frontend
-npm run install
+git clone https://github.com/Acid0000/Book-Search-With-GraphQL.git
+cd Book-Search-With-GraphQL
+npm install
 ```
 
-This will install the dependencies for both the backend (`server`) and the frontend (`client`).
+### Client Installation
 
-### Client Configuration
+Navigate to the `client` directory to install dependencies:
 
-In the `client` directory, if you have any environment variables for the frontend, create a `.env` file and add them there. Most frontend API URLs should already point to the backend deployed to Render.
+```sh
+cd client
+npm install
+```
+
+### Server Installation
+
+Navigate to the `server` directory to install server-side dependencies:
+
+```sh
+cd server
+npm install
+```
 
 ## Usage
 
-To run the application in development mode:
+To run the application locally:
 
 ```sh
-# Start the development environment
 npm run develop
 ```
 
-This will concurrently start both the React development server (frontend) and the Node.js server (backend).
+This command will start both the client and server using `concurrently`. The client will be accessible at `http://localhost:3000`, and the server (GraphQL API) will be accessible at `http://localhost:4001`.
 
-### Production Build
+## Deployment on Render
 
-To build the frontend for production:
+This application is deployed on Render. The following commands are used to deploy it:
+
+### Build Command
 
 ```sh
-# Build the frontend
-npm run build
+npm run render-build
 ```
 
-### Running the Production Server
+This command will:
+- Install root, client, and server dependencies.
+- Build the client using Vite.
 
-To run the Node.js server in production mode:
+### Start Command
 
 ```sh
-# Start the production server
 npm start
 ```
 
-## Deployment to Render
+This command will start the Express server and serve the client files in production.
 
-Follow these steps to deploy the application to [Render](https://render.com):
+### Environment Variables
 
-### Backend Deployment
+Ensure you set the following environment variables for the Render deployment:
 
-1. Log in to your Render account.
-2. Click on **New Web Service**.
-3. Select your GitHub repository and connect.
-4. Set the following fields:
-   - **Root Directory**: `server`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-5. Add the following environment variables:
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-6. Click **Create Web Service** to deploy the backend.
+- `MONGODB_URI`: MongoDB connection string.
+- `NODE_ENV`: Set this to `production`.
 
-### Frontend Deployment
+## Available Scripts
 
-1. Back in Render, click on **New Static Site**.
-2. Select the same GitHub repository but set the root to the `client` folder.
-3. Set the following fields:
-   - **Root Directory**: `client`
-   - **Build Command**: `npm install && npm run build`
-   - **Publish Directory**: `client/build`
-4. Deploy the frontend by clicking **Create Static Site**.
+In the project root, you can run the following scripts:
 
-## Environment Variables
-
-You will need the following environment variables for deployment:
-
-### Backend (`server`):
-```
-MONGODB_URI=your-mongodb-atlas-uri
-JWT_SECRET=your-jwt-secret
-PORT=4001
+```json
+"start": "node server/server.js",
+"develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+"install": "cd server && npm install && cd ../client && npm install",
+"build": "cd client && npm run build",
+"render-build": "npm install && cd client && npm install --production=false && npm run build && cd ../server && npm install"
 ```
 
-### Frontend (`client`):
-No specific environment variables are required for the frontend unless you're working with external services.
+### Client Scripts
+
+In the `client` directory, you can run:
+
+- **`npm run dev`**: Starts the React development server.
+- **`npm run build`**: Builds the client using Vite for production.
+- **`npm run preview`**: Previews the production build.
+
+### Server Scripts
+
+In the `server` directory, you can run:
+
+- **`npm run start`**: Starts the server.
+- **`npm run watch`**: Starts the server with Nodemon for development.
+
+## API Endpoints
+
+### GraphQL Endpoints
+
+The GraphQL API is served at `/graphql`. Available queries and mutations include:
+
+- **Queries**:
+  - `me`: Fetches the logged-in user's information (including saved books).
+
+- **Mutations**:
+  - `login(email, password)`: Logs in a user and returns an authentication token.
+  - `addUser(username, email, password)`: Registers a new user and returns an authentication token.
+  - `saveBook(bookDetails)`: Saves a book to the user's account.
+  - `removeBook(bookId)`: Removes a book from the user's saved list.
+
+### Example Queries:
+
+#### Fetch Current User
+
+```graphql
+query {
+  me {
+    _id
+    username
+    email
+    bookCount
+    savedBooks {
+      bookId
+      title
+      authors
+      description
+    }
+  }
+}
+```
+
+#### Save a Book
+
+```graphql
+mutation {
+  saveBook(bookDetails: {
+    bookId: "12345",
+    title: "GraphQL for Beginners",
+    authors: ["John Doe"],
+    description: "A beginner's guide to GraphQL.",
+    image: "image_url",
+    link: "book_link"
+  }) {
+    _id
+    username
+    savedBooks {
+      bookId
+      title
+    }
+  }
+}
+```
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the ISC License.
