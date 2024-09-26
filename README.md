@@ -1,254 +1,127 @@
-# 21 MERN: Book Search Engine
+# Google Books Search Engine - MERN Stack
 
-## Your Task
+This is a full-stack MERN (MongoDB, Express, React, Node.js) application that allows users to search for books using the Google Books API and save them to their account. The backend uses Apollo Server and GraphQL for handling API requests, and the frontend is built with React. Users can sign up, log in, search for books, save them to their account, and view or delete saved books.
 
-Your assignment this week is emblematic of the fact that most modern websites are driven by two things: data and user demands. This shouldn't come as a surprise, as the ability to personalize user data is the cornerstone of real-world web development today. And as user demands evolve, applications need to be more performant.
+## Table of Contents
 
-This week, you’ll take starter code with a fully functioning Google Books API search engine built with a RESTful API, and refactor it to be a GraphQL API built with Apollo Server. The app was built using the MERN stack with a React front end, MongoDB database, and Node.js/Express.js server and API. It's already set up to allow users to save book searches to the back end.
+- [Demo](#demo)
+- [Technologies](#technologies)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Deployment to Render](#deployment-to-render)
+- [Environment Variables](#environment-variables)
+- [License](#license)
 
-To complete the assignment, you’ll need to do the following:
+## Demo
 
-1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data, replacing the existing RESTful API.
+A live demo of the application can be found at: **[https://book-search-with-graphql.onrender.com/]**
 
-2. Modify the existing authentication middleware so that it works in the context of a GraphQL API.
+## Technologies
 
-3. Create an Apollo Provider so that requests can communicate with an Apollo Server.
+- **Frontend**: React, Apollo Client, React Bootstrap, Vite
+- **Backend**: Node.js, Express, Apollo Server, GraphQL
+- **Database**: MongoDB (via MongoDB Atlas)
 
-4. Deploy your application to Render with a MongoDB database using MongoDB Atlas. Use the [Deploy with Render and MongoDB Atlas](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas) walkthrough for instructions.
+## Features
 
-## User Story
+- **Search for Books**: Allows users to search for books using the Google Books API.
+- **User Authentication**: Users can sign up, log in, and stay logged in via JSON Web Tokens (JWT).
+- **Save Books**: Users can save books to their personal account.
+- **View Saved Books**: Users can view and delete books from their saved list.
 
-```md
-AS AN avid reader
-I WANT to search for new books to read
-SO THAT I can keep a list of books to purchase
+## Installation
+
+To install the application locally, follow these steps:
+
+```sh
+# Clone the repository
+git clone https://github.com/yourusername/google-books-search.git
+
+# Navigate into the project directory
+cd google-books-search
+
+# Install dependencies for both backend and frontend
+npm run install
 ```
 
-## Acceptance Criteria
+This will install the dependencies for both the backend (`server`) and the frontend (`client`).
 
-```md
-GIVEN a book search engine
-WHEN I load the search engine
-THEN I am presented with a menu with the options Search for Books and Login/Signup and an input field to search for books and a submit button
-WHEN I click on the Search for Books menu option
-THEN I am presented with an input field to search for books and a submit button
-WHEN I am not logged in and enter a search term in the input field and click the submit button
-THEN I am presented with several search results, each featuring a book’s title, author, description, image, and a link to that book on the Google Books site
-WHEN I click on the Login/Signup menu option
-THEN a modal appears on the screen with a toggle between the option to log in or sign up
-WHEN the toggle is set to Signup
-THEN I am presented with three inputs for a username, an email address, and a password, and a signup button
-WHEN the toggle is set to Login
-THEN I am presented with two inputs for an email address and a password and login button
-WHEN I enter a valid email address and create a password and click on the signup button
-THEN my user account is created and I am logged in to the site
-WHEN I enter my account’s email address and password and click on the login button
-THEN I the modal closes and I am logged in to the site
-WHEN I am logged in to the site
-THEN the menu options change to Search for Books, an option to see my saved books, and Logout
-WHEN I am logged in and enter a search term in the input field and click the submit button
-THEN I am presented with several search results, each featuring a book’s title, author, description, image, and a link to that book on the Google Books site and a button to save a book to my account
-WHEN I click on the Save button on a book
-THEN that book’s information is saved to my account
-WHEN I click on the option to see my saved books
-THEN I am presented with all of the books I have saved to my account, each featuring the book’s title, author, description, image, and a link to that book on the Google Books site and a button to remove a book from my account
-WHEN I click on the Remove button on a book
-THEN that book is deleted from my saved books list
-WHEN I click on the Logout button
-THEN I am logged out of the site and presented with a menu with the options Search for Books and Login/Signup and an input field to search for books and a submit button  
+### Client Configuration
+
+In the `client` directory, if you have any environment variables for the frontend, create a `.env` file and add them there. Most frontend API URLs should already point to the backend deployed to Render.
+
+## Usage
+
+To run the application in development mode:
+
+```sh
+# Start the development environment
+npm run develop
 ```
 
-## Mock-Up
+This will concurrently start both the React development server (frontend) and the Node.js server (backend).
 
-Let's start by revisiting the web application's appearance and functionality.
+### Production Build
 
-As you can see in the following animation, a user can type a search term (in this case, "star wars") in a search box and the results appear:
+To build the frontend for production:
 
-![Animation shows "star wars" typed into a search box and books about Star Wars appearing as results.](./Assets/21-mern-homework-demo-01.gif)
+```sh
+# Build the frontend
+npm run build
+```
 
-The user can save books by clicking "Save This Book!" under each search result, as shown in the following animation:
+### Running the Production Server
 
-![Animation shows user clicking "Save This Book!" button to save books that appear in search results. The button label changes to "Book Already Saved" after it is clicked and the book is saved.](./Assets/21-mern-homework-demo-02.gif)
+To run the Node.js server in production mode:
 
-A user can view their saved books on a separate page, as shown in the following animation:
+```sh
+# Start the production server
+npm start
+```
 
-![The Viewing Lernantino's Books page shows the books that the user Lernaninto has saved.](./Assets/21-mern-homework-demo-03.gif)
+## Deployment to Render
 
-## Getting Started
+Follow these steps to deploy the application to [Render](https://render.com):
 
-In order for this application to use a GraphQL API, you’ll need to refactor the API to use GraphQL on the back end and add some functionality to the front end. The following sections contain details about the files you’ll need to modify on the back end and the front end.
+### Backend Deployment
 
-**Important**: Make sure to study the application before building upon it. Better yet, start by making a copy of it. It's already a working application&mdash;you're converting it from RESTful API practices to a GraphQL API.
+1. Log in to your Render account.
+2. Click on **New Web Service**.
+3. Select your GitHub repository and connect.
+4. Set the following fields:
+   - **Root Directory**: `server`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+5. Add the following environment variables:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+6. Click **Create Web Service** to deploy the backend.
 
-### Back-End Specifications
+### Frontend Deployment
 
-You’ll need to complete the following tasks in each of these back-end files:
+1. Back in Render, click on **New Static Site**.
+2. Select the same GitHub repository but set the root to the `client` folder.
+3. Set the following fields:
+   - **Root Directory**: `client`
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `client/build`
+4. Deploy the frontend by clicking **Create Static Site**.
 
-* `auth.js`: Update the auth middleware function to work with the GraphQL API.
+## Environment Variables
 
-* `server.js`: Implement the Apollo Server and apply it to the Express server as middleware.
+You will need the following environment variables for deployment:
 
-* `Schemas` directory:
+### Backend (`server`):
+```
+MONGODB_URI=your-mongodb-atlas-uri
+JWT_SECRET=your-jwt-secret
+PORT=4001
+```
 
-  * `index.js`: Export your typeDefs and resolvers.
+### Frontend (`client`):
+No specific environment variables are required for the frontend unless you're working with external services.
 
-  * `resolvers.js`: Define the query and mutation functionality to work with the Mongoose models.
+## License
 
-  **Hint**: Use the functionality in the `user-controller.js` as a guide.
-
-  * `typeDefs.js`: Define the necessary `Query` and `Mutation` types:
-
-    * `Query` type:
-
-      * `me`: Which returns a `User` type.
-  
-    * `Mutation` type:
-
-      * `login`: Accepts an email and password as parameters; returns an `Auth` type.
-
-      * `addUser`: Accepts a username, email, and password as parameters; returns an `Auth` type.
-
-      * `saveBook`: Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a `User` type. (Look into creating what's known as an `input` type to handle all of these parameters!)
-
-      * `removeBook`: Accepts a book's `bookId` as a parameter; returns a `User` type.
-
-    * `User` type:
-
-      * `_id`
-
-      * `username`
-
-      * `email`
-
-      * `bookCount`
-
-      * `savedBooks` (This will be an array of the `Book` type.)
-
-    * `Book` type:
-
-      * `bookId` (Not the `_id`, but the book's `id` value returned from Google's Book API.)
-
-      * `authors` (An array of strings, as there may be more than one author.)
-
-      * `description`
-
-      * `title`
-
-      * `image`
-
-      * `link`
-
-    * `Auth` type:
-
-      * `token`
-
-      * `user` (References the `User` type.)
-
-### Front-End Specifications
-
-You'll need to create the following front-end files:
-
-* `queries.js`: This will hold the query `GET_ME`, which will execute the `me` query set up using Apollo Server.
-
-* `mutations.js`:
-
-  * `LOGIN_USER` will execute the `loginUser` mutation set up using Apollo Server.
-
-  * `ADD_USER` will execute the `addUser` mutation.
-
-  * `SAVE_BOOK` will execute the `saveBook` mutation.
-
-  * `REMOVE_BOOK` will execute the `removeBook` mutation.
-
-Additionally, you’ll need to complete the following tasks in each of these front-end files:
-
-* `App.jsx`: Create an Apollo Provider to make every request work with the Apollo Server.
- 
-* `SearchBooks.jsx`:
-
-  * Use the Apollo `useMutation()` Hook to execute the `SAVE_BOOK` mutation in the `handleSaveBook()` function instead of the `saveBook()` function imported from the `API` file.
-
-  * Make sure you keep the logic for saving the book's ID to state in the `try...catch` block!
-
-* `SavedBooks.jsx`:
-
-  * Remove the `useEffect()` Hook that sets the state for `UserData`.
-
-  * Instead, use the `useQuery()` Hook to execute the `GET_ME` query on load and save it to a variable named `userData`.
-
-  * Use the `useMutation()` Hook to execute the `REMOVE_BOOK` mutation in the `handleDeleteBook()` function instead of the `deleteBook()` function that's imported from `API` file. (Make sure you keep the `removeBookId()` function in place!)
-
-* `SignupForm.jsx`: Replace the `addUser()` functionality imported from the `API` file with the `ADD_USER` mutation functionality.
-
-* `LoginForm.jsx`: Replace the `loginUser()` functionality imported from the `API` file with the `LOGIN_USER` mutation functionality.
-
-## Grading Requirements
-
-> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code
->
-> * A repository that includes a unique name but nothing else
->
-> * A repository that includes only a README file but nothing else
->
-> * A repository that only includes starter code
-
-This Challenge is graded based on the following criteria:
-
-### Technical Acceptance Criteria: 40%
-
-* Satisfies all of the preceding acceptance criteria plus the following:
-
-  * Has an Apollo Server that uses GraphQL queries and mutations to fetch and modify data, replacing the existing RESTful API.
-
-  * Use an Apollo Server and apply it to the Express.js server as middleware.
-
-  * Include schema settings for resolvers and typeDefs as outlined in the Challenge instructions.
-
-  * Modify the existing authentication middleware to work in the context of a GraphQL API.
-
-  * Use an Apollo Provider so that the application can communicate with the Apollo Server.
-
-  * Application must be deployed to Render.
-
-### Deployment: 32%
-
-* Application deployed at live URL.
-
-* Application loads with no errors.
-
-* Application GitHub URL submitted.
-
-* GitHub repository contains application code.
-
-### Application Quality: 15%
-
-* User experience is intuitive and easy to navigate.
-
-* User interface style is clean and polished.
-
-* Application resembles the mock-up functionality provided in the Challenge instructions.
-
-### Repository Quality: 13%
-
-* Repository has a unique name.
-
-* Repository follows best practices for file structure and naming conventions.
-
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
-
-* Repository contains multiple descriptive commit messages.
-
-* Repository contains high-quality README file with description, screenshot, and link to the deployed application.
-
-## Review
-
-You are required to submit BOTH of the following for review:
-
-* The URL of the functional, deployed application.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
-
----
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
