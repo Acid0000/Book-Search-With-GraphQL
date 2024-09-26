@@ -69,7 +69,7 @@ This command will start both the client and server using `concurrently`. The cli
 
 ## Deployment on Render
 
-This application is deployed on Render. The following commands are used to deploy it:
+This application is deployed on Render https://book-search-with-graphql.onrender.com/ The following commands are used to deploy it:
 
 ### Build Command
 
